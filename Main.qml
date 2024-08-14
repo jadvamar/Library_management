@@ -73,6 +73,7 @@ Window {
                         width: parent.width / 2
                         height: parent.height
                         x:parent.width/2
+
                         displayText: currentIndex === -1 ? "select":currentText
                         model:["C++","Java","Python"]
                         Component.onCompleted:currentIndex=-1
@@ -92,13 +93,29 @@ Window {
                         width: parent.width/2
                         height: parent.height
                         Text {
+
                             id: singleBookCount
-                            text: backend.getbooks()[comboBox.currentText]
+                            text: qsTr("Single Book Count:")
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: parent.width/15
                             anchors.topMargin: parent.height/3
                             font.pixelSize: Math.min(parent.width / 3, parent.height / 3)
+
+                            // Timer {
+                            //     interval: 500
+                            //     running: true
+                            //     repeat: true
+                            //     onTriggered: {
+                            //         var newItemName = "Item " + (listModel.count + 1);
+                            //         listModelManager.addItem(newItemName, listModel.count + 1);
+                            //         var modelData = backend.getbooks()
+                            //         listModel.clear(); // Clear existing items
+                            //         for (var i = 0; i < modelData.length; i++) {
+                            //             listModel.append(modelData[i]);
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                     Rectangle{
@@ -108,13 +125,27 @@ Window {
                         x:parent.width/2
                         Text {
                             id: singleBookCount1
-                            text: qsTr("1")
+                            //text: backend.getbooks()[comboBox.currentText]
                             anchors.right: parent.right
                             anchors.top: parent.top
                             anchors.rightMargin: parent.width/2
                             anchors.topMargin: parent.height/3
                             x:parent.width/2
                             font.pixelSize: Math.min(parent.width / 3, parent.height / 3)
+                            Timer {
+                                id: updateTimer
+                                interval: 500 // 500 milliseconds
+                                running: true
+                                repeat: true
+                                onTriggered: {
+                                    // Ensure comboBox has a valid current text before fetching book count
+                                    if (comboBox.currentIndex !== -1) {
+                                        singleBookCount1.text = backend.getBookCount(comboBox.currentText);
+                                    } else {
+                                        singleBookCount1.text = "";
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -154,6 +185,20 @@ Window {
                             anchors.topMargin: parent.height/3
                             x:parent.width/2
                             font.pixelSize: Math.min(parent.width / 3, parent.height / 3)
+                            // Timer {
+                            //     id: updateTimer
+                            //     interval: 500 // 500 milliseconds
+                            //     running: true
+                            //     repeat: true
+                            //     onTriggered: {
+                            //         // Ensure comboBox has a valid current text before fetching book count
+                            //         if (comboBox.currentIndex !== -1) {
+                            //             bookCount1.text = backend.getBookCount(comboBox.currentText);
+                            //         } else {
+                            //             bookCount1.text = "Select a book";
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                 }

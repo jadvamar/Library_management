@@ -61,3 +61,12 @@ map<QString, int> Backend::getBooks(QString bookName)
 {
     return BooksInfo;
 }
+
+QString Backend::getBookCount(QString bookName)
+{
+    if (BooksInfo.find(bookName) != BooksInfo.end())
+        return QString::number(BooksInfo[bookName]);
+    return "0";
+}
+
+

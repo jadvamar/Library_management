@@ -58,8 +58,8 @@ Window {
                     anchors.right: parent.right
                     anchors.rightMargin: 10
                     Text {
-                        id: name
-                        text: qsTr("Book Name:")
+                        id: userNameTxt
+                        text: qsTr("User Name:")
                         anchors.left: parent.left
                         anchors.top: parent.top
                         anchors.leftMargin: parent.width/15
@@ -68,7 +68,7 @@ Window {
                     }
                     ComboBox {
 
-                        id: comboBox
+                        id: userComboBox
                         width: parent.width / 2
                         height: parent.height
                         x:parent.width/2
@@ -125,7 +125,7 @@ Window {
                     anchors.right: parent.right
                     anchors.rightMargin: 10
                     Text {
-                        id: name2
+                        id: bookNameLable
                         text: qsTr("Book Name:")
                         anchors.left: parent.left
                         anchors.top: parent.top
@@ -161,7 +161,7 @@ Window {
                         height: parent.height
                         color: "#d9d1d0"
                         Text {
-                            id: bookCount
+                            id: bookCountLable
                             text: qsTr("Total Available Book:")
                             anchors.left: parent.left
                             anchors.top: parent.top
@@ -176,7 +176,7 @@ Window {
                         x:parent.width/2
                         color: "#d9d1d0"
                         Text {
-                            id: bookCount1
+                            id: bookCountTxt
                             text: qsTr("1")
                             anchors.right: parent.right
                             anchors.top: parent.top
@@ -184,6 +184,21 @@ Window {
                             anchors.topMargin: parent.height/3
                             x:parent.width/2
                             font.pixelSize: Math.min(parent.width / 3, parent.height / 3)
+                            Timer {
+                                id: updateTimer
+                                interval: 500 // 500 milliseconds
+                                running: true
+                                repeat: true
+                                onTriggered: {
+                                    // Ensure comboBox has a valid current text before fetching book count
+                                    if (bookComboBox.currentIndex !== -1) {
+                                        bookCountTxt.text = backend.getBookCount(bookComboBox.currentText);
+                                    } else {
+                                        bookCountTxt.text = "";
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
@@ -201,7 +216,7 @@ Window {
                         height: parent.height
                         Text {
 
-                            id: singleBookCount
+                            id: quantityLable
                             text: qsTr("Quantity:")
                             anchors.left: parent.left
                             anchors.top: parent.top
@@ -217,7 +232,7 @@ Window {
                         x:parent.width/2
                         border.color: "black"
                         TextInput {
-                            id: singleBookCountInput
+                            id: quantityInput
                             anchors.right: parent.right
                             anchors.left: parent.left
                             anchors.fill: parent

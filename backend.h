@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void deleteBooks(QString bookName);
     Q_INVOKABLE void updateBooks(QString bookName, int Quantity);
     Q_INVOKABLE map<QString,int> getBooks(QString bookName);
+    Q_INVOKABLE QString getBookCount(QString bookName);
 private:
     map<QString, map<QString, int>>User;
     map<QString,int>BooksInfo;
