@@ -11,7 +11,7 @@ Window {
 
     Text {
         id: heading
-        text: qsTr("Library Management")
+        text: qsTr("Assign Books")
         font.pixelSize: 23
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
@@ -67,39 +67,22 @@ Window {
                         font.pixelSize: Math.min(parent.width / 3, parent.height / 3)
                     }
                     ComboBox {
-
                         id: userComboBox
                         width: parent.width / 2
                         height: parent.height
                         x:parent.width/2
 
-                        model: ListModel {
-                            ListElement { name: "Amar" }
-                            ListElement { name: "Tanmay" }
-                            ListElement { name: "Ram" }
-                        }
+                        displayText: currentIndex === -1 ? "select":currentText
+                        model: backend.getBooks() // Populate with book names from C++ backend
+                            // ["C++","Java","Python"]
 
-                        delegate: Item {
-                            width: comboBox.width
-                            height: 40
-
-                            Rectangle {
-                                width: parent.width
-                                height: parent.height
-                                color: "white"
-                                border.color: "gray"
-                                radius: 5
-
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: model.name
-                                }
-                            }
-                        }
-
-                        onCurrentIndexChanged: {
-                            console.log("Selected item:", model.get(currentIndex).name)
-                        }
+                        // Component.onCompleted:currentIndex=-1
+                        Component.onCompleted: {
+                                  // Log the model data for debugging
+                                  console.log("ComboBox model data:", backend.getBooks())
+                                  // Ensure initial selection
+                                  currentIndex = -1
+                              }
                     }
                     Timer {
                         interval: 500
@@ -134,19 +117,24 @@ Window {
                         font.pixelSize: Math.min(parent.width / 3, parent.height / 3)
                     }
                     ComboBox {
-
                         id: bookComboBox
                         width: parent.width / 2
                         height: parent.height
                         x:parent.width/2
-                        font.pixelSize: 17
+
                         displayText: currentIndex === -1 ? "select":currentText
-                        model:["C++","Java","Python"]
-                        Component.onCompleted:currentIndex=-1
-                        onCurrentIndexChanged: {
-                            console.log("Selected item:", model.get(currentIndex).name)
-                        }
+                        model: backend.getBooks() // Populate with book names from C++ backend
+                            // ["C++","Java","Python"]
+
+                        // Component.onCompleted:currentIndex=-1
+                        Component.onCompleted: {
+                                  // Log the model data for debugging
+                                  console.log("ComboBox model data:", backend.getBooks())
+                                  // Ensure initial selection
+                                  currentIndex = -1
+                              }
                     }
+
                 }
                 Rectangle {
                     color: "#d9d1d0"
